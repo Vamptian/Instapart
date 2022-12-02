@@ -1,0 +1,64 @@
+
+
+
+	1. INSTAPART a new exchange for automotive parts, connect small biz with part horders
+	
+		1. the user object will be able to signin/signup 
+		2. they will be able to search the user list and add contacts to there own list.
+		3. they will have the ability to creat their own part wearhouse.
+		4. they will be able to show all availble parts and part request, and buy/sell that part once agreed from the user who submited the post
+		5. they will be able to submit a request for a part and 
+		6. they will be able to show only the request or avaible parts
+		7. include a serch function for each page  
+	
+	
+	
+	
+		list of objects.
+		
+			1.user
+			2.parts
+			3.post
+			
+			
+			
+		USER
+		 
+		 username
+		 email
+		 password
+		 phone number
+		 
+		 one to many
+		 list of parts
+		 
+		 one to many
+		 list of post
+		 
+		 
+		 
+		Parts
+		
+			name
+			description
+			value
+			
+			
+		request post
+		
+			
+			boolean, true is buyable : false is sellable
+		
+			one to one
+			part
+		
+			String description
+		
+			
+			one to one
+			user 1 filler
+		
+			the user1 object gets stored on the post so the user who submited the post can go to his parts and contact
+			then sell to or delete the user who added his name to the post
+	
+		
