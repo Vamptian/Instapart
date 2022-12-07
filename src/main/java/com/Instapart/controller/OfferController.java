@@ -41,7 +41,7 @@ public class OfferController {
 	@Autowired
 	OfferService offerService;
 	
-	@RequestMapping(value = "/createPostOffer/{partId}/{postId}/{userId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/createPostOffer/{partId}/{postId}/{userId}", method = RequestMethod.PUT)
 	@ResponseBody
 	public  ResponseEntity<Object> createPostOffer(@RequestBody Offer offer, @PathVariable Integer partId, @PathVariable Integer postId ,@PathVariable Integer userId){
 		try {
@@ -58,6 +58,7 @@ public class OfferController {
 		}catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Error e) {
+			System.out.println(e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -100,4 +101,57 @@ public class OfferController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
+	
+	@RequestMapping(value = "/makeTransfer/{offerId}/{postId}", method = RequestMethod.POST)
+	@ResponseBody
+	public  ResponseEntity<Object> makeTransfer(@RequestBody User user, @PathVariable Integer offerId, @PathVariable Integer postId){
+		try {
+			
+			Offer offer = offerService.getOfferById(offerId);
+			Part part = offer.getPart();
+			Post post = postService.getPostById(postId);
+			user = userService.makeTransfer(user,part);
+			postService.delete(post);
+			offerService.deleteAllPartOffers(part);
+			
+			
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Error e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	@RequestMapping(value = "/makePartTransfer/{offerId}/{partId}", method = RequestMethod.POST)
+	@ResponseBody
+	public  ResponseEntity<Object> makePartTransfer(@RequestBody User user, @PathVariable Integer offerId, @PathVariable Integer partId){
+		try {
+			
+			
+			Part part = partService.getPartById(partId);
+			Offer offer = offerService.getOfferById(offerId);
+			
+			User user2 = offer.getUser();
+			offerService.deleteAllPartOffers(part);
+			user2.getParts().add(part);
+			userService.save(user2);
+			
+			System.out.println("before");
+			
+			System.out.println("after");
+			
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Error e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	
 }

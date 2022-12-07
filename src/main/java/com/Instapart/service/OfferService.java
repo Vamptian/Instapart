@@ -30,19 +30,12 @@ public class OfferService {
 
 	public Offer createPostOffer(User user, Post post, Part part, Offer offer) {
 		
-		try {
 		offer.setPart(part);
 		offer.setUser(user);
 		offer = offerRepo.save(offer);
 		
 		post.getOffers().add(offer);
 		post = postService.save(post);
-		
-		
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
 		
 		return offer;
 	}
@@ -68,6 +61,22 @@ public class OfferService {
 		Integer userId = offerRepo.getUserFromOffer(offerId);
 		User user = userService.getUserById(userId);
 		return user;
+	}
+
+	public Offer getOfferById(Integer offerId) {
+		
+		return offerRepo.getOfferById(offerId);
+	}
+
+	public void deleteAllWithPart(Part part) {
+		Integer partId = part.getId();
+		offerRepo.deleteAllWithPart(partId);
+		
+	}
+
+	public void deleteAllPartOffers(Part part) {
+		Integer partId = part.getId();
+		offerRepo.deletePartOffers(partId);
 	}
 	
 	

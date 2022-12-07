@@ -3,6 +3,7 @@ package com.Instapart.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class Post {
 	@Column(name = "date")
 	Date date;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE , orphanRemoval = true)
 	@JoinColumn(name="post_id", referencedColumnName = "id")
 	List<Offer> offers;
 	

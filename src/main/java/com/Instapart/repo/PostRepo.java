@@ -18,5 +18,8 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
 
 	@Query(value = "select * from post where user_Id = ?1", nativeQuery = true)
 	List<Post> getUserPost(Integer userId);
+
+	@Query(value = "select * from post where user_id != ?1", nativeQuery = true)
+	List<Post> getAllPostWhithoutUser(Integer userId);
 	
 }

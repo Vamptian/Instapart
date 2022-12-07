@@ -45,11 +45,11 @@ public class PostController {
 	}
 	
 	
-	@RequestMapping(value = "/getAllPost", method = RequestMethod.GET)
-	public ResponseEntity<Object> getAllPost(){
+	@RequestMapping(value = "/getAllPost/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getAllPost(@PathVariable Integer userId){
 		try {
 			
-			List<Post> allPost = postService.getAllPost();
+			List<Post> allPost = postService.getAllPost(userId);
 			return new ResponseEntity<>(allPost, HttpStatus.CREATED);
 
 			
@@ -68,6 +68,24 @@ public class PostController {
 		try {
 			
 			List<Post> userPost = postService.getUserPost(user);
+			return new ResponseEntity<>(userPost, HttpStatus.CREATED);
+
+			
+		}catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Error e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	
+	@RequestMapping(value = "/getPostById/{postId}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Object> getUserPost(@PathVariable Integer postId){
+		try {
+			
+			Post userPost = postService.getPostById(postId); 
 			return new ResponseEntity<>(userPost, HttpStatus.CREATED);
 
 			

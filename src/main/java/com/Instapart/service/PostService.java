@@ -45,9 +45,9 @@ public class PostService {
 
 	}
 
-	public List<Post> getAllPost() throws Exception {
+	public List<Post> getAllPost(Integer userId) throws Exception {
 		if (postRepo.findAll() != null) {
-			List<Post> allPost = postRepo.findAll();
+			List<Post> allPost = postRepo.getAllPostWhithoutUser(userId);
 			return allPost;
 		} else {
 			throw new Exception("no post availble");
@@ -64,6 +64,11 @@ public class PostService {
 			throw new Exception("no post availble");
 		}
 
+	}
+
+	public void delete(Post post) {
+		postRepo.delete(post);
+		
 	}
 
 }

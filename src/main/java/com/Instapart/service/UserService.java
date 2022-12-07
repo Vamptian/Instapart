@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Instapart.entity.Contacts;
+import com.Instapart.entity.Offer;
 import com.Instapart.entity.Part;
 import com.Instapart.entity.Post;
 import com.Instapart.entity.User;
@@ -22,6 +23,7 @@ public class UserService {
 	
 	@Autowired
 	ContactsRepo contactsRepo;
+	
 
 	public User save(User user) throws Exception {
 
@@ -101,6 +103,16 @@ public class UserService {
 		Contacts contact = contactsRepo.findByUsers(user1Id, user2Id);
 		System.out.println(contact.getId());
 		contactsRepo.deleteById(contact.getId());
+		return user;
+	}
+
+	public User makeTransfer(User user, Part part) throws Exception {
+		
+		
+		user.getParts().add(part);
+		user = save(user);
+		
+		
 		return user;
 	}
 
