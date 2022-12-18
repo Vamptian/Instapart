@@ -51,6 +51,7 @@ public class UserController {
 
 			return new ResponseEntity<>(signedUpUser, HttpStatus.CREATED);
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Error e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -46,13 +46,13 @@ public class OfferController {
 	public  ResponseEntity<Object> createPostOffer(@RequestBody Offer offer, @PathVariable Integer partId, @PathVariable Integer postId ,@PathVariable Integer userId){
 		try {
 			
-			User user = userService.getUserById(userId);
-			System.out.println(user.toString());
+			
 			Post post = postService.getPostById(postId);
 			System.out.println(post.toString());
 			Part part = partService.getPartById(partId);
 			System.out.println(part.toString());
-			Offer newoffer = offerService.createPostOffer(user, post, part, offer);
+			Offer newoffer = offerService.createPostOffer(userId, post, part, offer);
+			
 			System.out.println(newoffer.toString());
 			return new ResponseEntity<>(post, HttpStatus.OK);
 		}catch (Exception e) {
@@ -69,18 +69,17 @@ public class OfferController {
 	public  ResponseEntity<Object> createPartOffer(@RequestBody Offer offer, @PathVariable Integer partId, @PathVariable Integer userId){
 		try {
 			
-			User user = userService.getUserById(userId);
-			System.out.println(user.toString());
-			
 			Part part = partService.getPartById(partId);
 			System.out.println(part.toString());
 			
-			Offer newoffer = offerService.createPartOffer(user, part, offer);
+			Offer newoffer = offerService.createPartOffer(userId, part, offer);
+			partService.savePart(part, offer);
 			System.out.println(newoffer.toString());
 			return new ResponseEntity<>(part, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Error e) {
+			System.out.println(e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -135,14 +134,13 @@ public class OfferController {
 			Part part = partService.getPartById(partId);
 			Offer offer = offerService.getOfferById(offerId);
 			
-			User user2 = offer.getUser();
+			Integer userId = offer.getUserId();
+			User user2 = userService.getUserById(userId);
 			offerService.deleteAllPartOffers(part);
 			user2.getParts().add(part);
 			userService.save(user2);
 			
-			System.out.println("before");
 			
-			System.out.println("after");
 			
 			return new ResponseEntity<>(user, HttpStatus.OK);
 		}catch (Exception e) {

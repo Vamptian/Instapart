@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Instapart.entity.Offer;
 import com.Instapart.entity.Part;
 import com.Instapart.entity.User;
 import com.Instapart.repo.PartRepo;
@@ -65,13 +66,7 @@ public class PartService {
 			
 			
 		}
-		
-		
-		
-		
-		
-		
-		
+	
 	}
 
 	public Part save(Part part) {
@@ -79,4 +74,15 @@ public class PartService {
 		return part;
 
 }
+
+	public void savePart(Part part, Offer offer) {
+		try {
+			part.getOffers().add(offer);
+			save(part);
+		} catch(Exception e) {
+			System.out.println(e);
+		} catch(Error e) {
+			System.out.println(e);
+		}
+	}
 }

@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "offer")
 public class Offer {
@@ -29,9 +31,7 @@ public class Offer {
 	@JoinColumn(name="offer_part_id", referencedColumnName = "id")
 	Part part;
 	
-	@OneToOne
-	@JoinColumn(name="user", referencedColumnName = "id")
-	User user;
+	Integer userId;
 	
 	@Column(name = "price")
 	Double price;
@@ -64,17 +64,17 @@ public class Offer {
 
 
 	
-	public User getUser() {
-		return user;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserid(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
-		return "Offer [id=" + id + ", part=" + part + ", user=" + user + ", price=" + price + "]";
+		return "Offer [id=" + id + ", part=" + part + ", userId=" + userId + ", price=" + price + "]";
 	}
 
 	

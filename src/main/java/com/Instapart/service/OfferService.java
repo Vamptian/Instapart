@@ -28,37 +28,40 @@ public class OfferService {
 	@Autowired
 	OfferRepo offerRepo;
 
-	public Offer createPostOffer(User user, Post post, Part part, Offer offer) {
+	public Offer createPostOffer(Integer userId, Post post, Part part, Offer offer) {
 		
 		offer.setPart(part);
-		offer.setUser(user);
-		offer = offerRepo.save(offer);
-		
+		offer.setUserid(userId);
+
 		post.getOffers().add(offer);
+		
+		offer = offerRepo.save(offer);
 		post = postService.save(post);
 		
 		return offer;
 	}
 
-	public Offer createPartOffer(User user, Part part, Offer offer) {
+	public Offer createPartOffer(Integer userId, Part part, Offer offer) {
 		
 		try {
-			offer.setUser(user);
+			offer.setUserid(userId);
 			offer = offerRepo.save(offer);
-			part.getOffers().add(offer);
-			part = partService.save(part);
+			
 			
 						
-			} catch (Exception e) {				
+			} catch (Exception e) {	
+				System.out.println(e);
 				e.printStackTrace();
+			} catch (Error e) {	
+			
+				System.out.println(e);
 			}
 			
 			return offer;
 		}
 
 	public User getUserFromOffer(Offer offer) {
-		Integer offerId = offer.getId();
-		Integer userId = offerRepo.getUserFromOffer(offerId);
+		Integer userId = offer.getUserId();
 		User user = userService.getUserById(userId);
 		return user;
 	}
