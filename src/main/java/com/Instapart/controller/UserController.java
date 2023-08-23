@@ -29,7 +29,7 @@ public class UserController {
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Object> signUp(@RequestBody User user) {
-
+		
 		try {
 			User signedUpUser = userService.save(user);
 
@@ -49,7 +49,7 @@ public class UserController {
 		try {
 			User signedUpUser = userService.signIn(user);
 
-			return new ResponseEntity<>(signedUpUser, HttpStatus.CREATED);
+			return new ResponseEntity<>(signedUpUser, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -87,7 +87,7 @@ public class UserController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Object> getAllContacts() {
@@ -103,8 +103,7 @@ public class UserController {
 		}
 
 	}
-	
-	
+
 	@RequestMapping(value = "/addContact/{userId}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Object> createContact(@RequestBody User user, @PathVariable Integer userId) {
@@ -121,14 +120,12 @@ public class UserController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/removeContact/{userId}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Object> removeContact(@RequestBody User user, @PathVariable Integer userId) {
 		try {
-			
-			
-			
+
 			User loggedInUser = userService.removeContact(user, userId);
 
 			return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
@@ -139,8 +136,5 @@ public class UserController {
 		}
 
 	}
-	
+
 }
-
-
-
